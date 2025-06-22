@@ -35,7 +35,7 @@ TableNest/
 ## 🛠️ Tecnologías Usadas
 
 - Node.js + Express.js
-- MongoDB + Mongoose
+- Posgrest SQL
 - EJS (Motor de plantillas)
 - Socket.io (Notificaciones en tiempo real)
 - Multer (Subida de imágenes)
@@ -62,7 +62,6 @@ npm install
 **3 -** Crea un archivo ```.env```:
 
 ```
-MONGODB_URI=your_mongo_connection_string
 SECRET_SESSION=your_secret_key
 STRIPE_SECRET_KEY=your_stripe_key
 EMAIL_USER=your_email
