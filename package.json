@@ -17,12 +17,16 @@
   "author": "Fernando Huerta",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/pg": "^8.15.4",
     "dotenv-cli": "^8.0.0",
     "node-pg-migrate": "^8.0.3"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.0.1",
-    "pg": "^8.16.3"
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "zod": "^3.25.76"
   }
 }
