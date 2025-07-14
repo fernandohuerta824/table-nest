@@ -7,13 +7,23 @@ import { UserTokens } from './UserTokens';
 
 dotev.config()
 
+export function connectDB(url: string) {
+  return new DataSource({
+    type: 'postgres',
+    url,
+    synchronize: false,      // Importante: no sincronizar esquema
+    logging: false,
+    entities: [User, UserTokens],
+    migrations: [],          // No usar migraciones ORM
+    subscribers: [],
+  })
+}
 export const AppDataSource = new DataSource({
   type: 'postgres',
   url: process.env.DATABASE_URL as string,
-  database: process.env.DATABASE_NAME as string,
   synchronize: false,      // Importante: no sincronizar esquema
   logging: false,
   entities: [User, UserTokens],
   migrations: [],          // No usar migraciones ORM
   subscribers: [],
-});
+})

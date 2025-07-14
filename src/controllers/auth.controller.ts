@@ -1,5 +1,4 @@
 import type { Request, Response, NextFunction } from "express";
-import bycript from 'bcryptjs'
 import { SignupUser, UserFields } from "../types";
 import { User } from "../models/User";
 import { AppDataSource } from "../models/dataSource";
@@ -11,7 +10,7 @@ import Email from "../classes/Email";
 export async function signup (req: Request<{}, {}, SignupUser>, res: Response) {
     const user = new User(req.body)
 
-    user.password = await bycript.hash(user.password, 10)
+    await user.hashPassword()
 
     let tokenEmail = ''
     let tokenPhone = ''

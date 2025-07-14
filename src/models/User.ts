@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import bycript from 'bcryptjs'
 import { UserFields } from '../types';
 import { UserTokens } from './UserTokens';
 
@@ -53,6 +54,10 @@ export class User extends BaseEntity implements UserFields {
     constructor(user?: Partial<UserFields>) {
         super()
         Object.assign(this, user)
+    }
+
+    public async hashPassword(salt = 10) {
+        this.password = await bycript.hash(this.password, salt)
     }
     
 }

@@ -1,14 +1,14 @@
 /**
  * @type {import('node-pg-migrate').ColumnDefinitions | undefined}
  */
-export const shorthands = undefined;
+exports.shorthands = undefined;
 
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
  * @param run {() => void | undefined}
  * @returns {Promise<void> | void}
  */
-export const up = (pgm) => {
+exports.up = (pgm) => {
     pgm.sql(`
         CREATE TRIGGER set_users_updated_at
         BEFORE UPDATE ON users
@@ -42,7 +42,7 @@ export const up = (pgm) => {
  * @param run {() => void | undefined}
  * @returns {Promise<void> | void}
  */
-export const down = (pgm) => {
+exports.down = (pgm) => {
     pgm.sql(`
         DROP TRIGGER IF EXISTS set_users_updated_at ON users;
         DROP TRIGGER IF EXISTS validate_pending_email ON users;

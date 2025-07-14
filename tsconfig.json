@@ -12,7 +12,8 @@
         "declaration": true, // Generates corresponding '.d.ts' files for the compiled files, this means we will generate declaration files
         "typeRoots": ["./node_modules/@types", "./src/types"],
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "isolatedModules": true
         
     },
     "include": ["src/**/*.ts"],

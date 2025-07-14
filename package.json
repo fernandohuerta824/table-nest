@@ -7,9 +7,14 @@
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
+
     "migrate": "dotenv -e .env -- node-pg-migrate",
     "migrate:up": "dotenv -e .env -- node-pg-migrate up",
     "migrate:down": "dotenv -e .env -- node-pg-migrate down",
+
+    "migrate:up:test": "dotenv -e .env.test -- node-pg-migrate up",
+    "migrate:down:test": "dotenv -e .env.test  -- node-pg-migrate down",
+
     "seed:up": "node ./seeds/index.js up",
     "seed:down": "node ./seeds/index.js down"
   },

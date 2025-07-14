@@ -1,15 +1,27 @@
 const { seedDownUsers, seedUpUsers } = require('./insert-users')
 const pg = require('pg');
+const dotenv = require('dotenv')
+
+const mode = process.argv.find(arg => arg.startsWith('mode='))?.split('=')[1]
+const type = process.argv[2]
+const path = mode === 'test' ? '.env.test' : '.env'
+const numUsers = +process.argv.
+    find(arg => arg.startsWith('users='))
+    ?.split('=')[1]
+
+const limitUsers = isFinite(numUsers) && numUsers > 0 && numUsers <= 1000 ? numUsers : 1000
+
+
+dotenv.config({ path });
+
 const pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL
 });
 
 
-const mode = process.argv[2]
-
 async function runMigrationsUp () {
     console.log('Running up seeds...')
-    await seedUpUsers(pool)
+    await seedUpUsers(pool, limitUsers)
     console.log('Migration done successfully')
 
 }
@@ -20,7 +32,7 @@ async function runMigrationsDown() {
     console.log('Migration done successfully')
 }
 
-if(mode === 'up') {
+if(type === 'up') {
     runMigrationsUp()
         .catch(error => {
             console.error(error)
@@ -29,7 +41,7 @@ if(mode === 'up') {
         .finally(() => {
             pool.end()
         })
-} else if(mode === 'down') {
+} else if(type === 'down') {
     runMigrationsDown()
         .catch(error => {
             console.error(error)
