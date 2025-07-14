@@ -3,8 +3,6 @@ import type { Request, Response, NextFunction, } from 'express';
 import dotenv from 'dotenv'
 import authRouter from './routes/auth.router';
 import { ErrorResponse } from './classes/errors';
-import User from './models/User';
-
 dotenv.config();
 
 const app = express()
@@ -12,9 +10,8 @@ const app = express()
 app.use(express.json())
 
 app.use('/working', async (req, res) => {
-    const users = await User.getAll()
-    res.json({ message: 'Working', users }
-)})
+    res.json({ message: 'working' })
+})
 app.use('/auth', authRouter)
 
 app.use((

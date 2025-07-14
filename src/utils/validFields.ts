@@ -1,10 +1,14 @@
-import type { SignupUser } from '../types/index';
+import type { SignupRequiredUser, SignupOptionalUser } from '../types/index';
 
-export const SIGNUP_FIELDS: (keyof SignupUser)[] = [
+export const SIGNUP_REQUIRED_FIELDS: (keyof SignupRequiredUser)[] = [
   'username',
   'firstName',
-  'lastName',
   'password',
+] as const;
+
+
+export const SIGNUP_OPTIONAL_FIELDS: (keyof SignupOptionalUser)[] = [
+  'lastName',
   'email',
   'phoneNumber',
 ] as const;

@@ -1,10 +1,23 @@
 import type { NextFunction, Request, Response } from 'express'
 import { ErrorResponse } from '../classes/errors'
 
-export const checkValidFields = (fields: string[] = []) => {
+export const checkValidFields = (
+    { fields, optionalFields}: 
+    {fields?: string[], optionalFields?: string[]}
+
+) => {
+    if(!fields) {
+        fields = []
+    }
+
+    if(!optionalFields) {
+        optionalFields = []
+    }
     return (req: Request, res: Response, next: NextFunction) => {
+        
         const bodyFields = Object.keys(req.body)
-        const invalidFields = bodyFields.filter(bf => !fields.includes(bf))
+
+        const invalidFields = bodyFields.filter(bf => !fields.concat(optionalFields).includes(bf))
         
         if(invalidFields.length > 0) {
             throw new ErrorResponse('BadRequest', `Bad Request: They were sent invalid fields: ${invalidFields.join(', ')}`, 400, {

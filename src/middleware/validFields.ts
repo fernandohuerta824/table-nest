@@ -9,7 +9,6 @@ export const validateBody = (schema: z.ZodSchema<any>) => {
 
     if (!result.success) {
         throw new ValidationResponseError(result.error.format())
-    //   return res.status(400).json({ errors: result.error.format() })
     }
 
     req.body = result.data

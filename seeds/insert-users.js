@@ -20,7 +20,7 @@ async function seedUpUsers(pool) {
             `;
             
             const hashPassword = await bycriptjs.hash(user.password, saltSeedPassword)
-            const userValues = [user.first_name, user.last_name, user.username, hashPassword, user.email, user.phone_number];
+            const userValues = [user.first_name, user.last_name, user.username, hashPassword, user.email, user.phone_number.replaceAll('-', '')];
             
             const { rows } = await pool.query(userQuery, userValues);
             const newUser = rows[0]
@@ -43,8 +43,11 @@ async function seedUpUsers(pool) {
 }
 
 async function seedDownUsers(pool) {
-    await pool.query('DELETE FROM users;')
+    await pool.query('TRUNCATE TABLE user_tokens RESTART IDENTITY CASCADE;')
+    console.log(`User tokens deleted`);
+    await pool.query('TRUNCATE TABLE users RESTART IDENTITY CASCADE;');
     console.log(`Users deleted`);
+
 }
 
 module.exports = {

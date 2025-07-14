@@ -1,29 +1,59 @@
-import { UserFields } from "../types";
-import Model from "./Model";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import { UserFields } from '../types';
+import { UserTokens } from './UserTokens';
 
-class User extends Model implements UserFields {
-    protected static override table: string = 'users'
+@Entity('users')
+export class User extends BaseEntity implements UserFields {
 
-    id!: number;
-    firstName!: string;
-    lastName!: string;
-    username!: string;
+    @PrimaryGeneratedColumn()
+    id!: number
+
+    @Column({ nullable: false, unique: true })
+    username!: string
+
+    @Column({ unique: false, name: 'first_name', nullable: false })
+    firstName!: string
+
+    @Column({ unique: false, name: 'last_name', nullable: true })
+    lastName!: string
+
+    @Column({nullable: false })
     password!: string;
+
+    @Column({ nullable: true, unique: true})
     email!: string
-    phoneNumber!: string
+
+    @Column({ unique: false, name: 'phone_number', nullable: true })
+    phoneNumber!: string;
+
+    @Column({ unique: false, name: 'phone_ext', nullable: true })
     phoneExt!: string
-    pendingEmail!: string
-    pendingPhoneNumber!: string
+
+    @Column({ unique: false, name: 'pending_email', nullable: true })
+    pendingEmail!: string;
+
+    @Column({ unique: false, name: 'pending_phone_number', nullable: true })
+    pendingPhoneNumber!: string;
+
+    @Column({ nullable: false, default: false, name: 'two_factor_enabled' })
     twoFactorEnabled!: boolean
-    createdAt!: string
+
+    @Column({ nullable: false, name: 'created_at' })
+    createdAt!: string;
+
+    @Column({ nullable: false, name: 'updated_at' })
     updatedAt!: string
-    isBanned!: boolean
 
-    constructor(data: UserFields) {
-        super(data)
-        Object.assign(this, data);
+    @Column({ nullable: false, default: false, name: 'is_banned' })
+    isBanned!: boolean;
+
+    @OneToMany(() => UserTokens, token => token.user)
+    tokens!: UserTokens[]
+
+    constructor(user?: Partial<UserFields>) {
+        super()
+        Object.assign(this, user)
     }
-
+    
 }
 
-export default User
