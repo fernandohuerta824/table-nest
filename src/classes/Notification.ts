@@ -1,4 +1,5 @@
 import twilio from "twilio"
+import variables from "./../helpers/dotenvConfig"
 
 type confirmationParams = {
     to: string,
@@ -7,24 +8,32 @@ type confirmationParams = {
 }
 
 class Notification {
-    private readonly accountId = process.env.TWILIO_ACCOUNT_SID!
-    private readonly authToken = process.env.TWILIO_AUTH_TOKEN!
-    private readonly fromNumber = 'whatsapp:+14155238886'
-    private readonly contentSidConfirm = process.env.TWILIO_CONTENT_SID
-    private readonly client : twilio.Twilio
-    
+    private readonly accountId: string
+    private readonly authToken: string
+    private readonly fromNumber: string
+    private readonly contentSidConfirm: string
+    private readonly client: twilio.Twilio
+
     constructor() {
+        this.accountId = variables.TWILIO_ACCOUNT_SID
+        this.authToken = variables.TWILIO_AUTH_TOKEN
+        this.fromNumber = 'whatsapp:+14155238886'
+        this.contentSidConfirm = process.env.TWILIO_CONTENT_SID!
         this.client = twilio(this.accountId, this.authToken)
     }
 
 
     public async sendConfirmation(params: confirmationParams) {
-        await this.client.messages.create({
+
+        const objectToSend = {
+            to: `${params.to}`,
             from: this.fromNumber,
-            to: params.to,
             contentSid: this.contentSidConfirm,
             contentVariables: `{"1":"${params.username}","2":"Table Nest/${params.token}", "3": "Table Nest"}`
-        })
+        }
+        await this.client.messages.create(objectToSend)
+
+
     }
 }
 

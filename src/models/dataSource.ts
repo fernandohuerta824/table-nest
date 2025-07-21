@@ -1,29 +1,27 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm'
-import dotev from 'dotenv'
 import { User } from './User';
 import { UserTokens } from './UserTokens';
-
-
-dotev.config()
+import variables from '../helpers/dotenvConfig';
 
 export function connectDB(url: string) {
-  return new DataSource({
+    return new DataSource({
+        type: 'postgres',
+        url,
+        synchronize: false,
+        logging: false,
+        entities: [User, UserTokens],
+        migrations: [],
+        subscribers: [],
+    })
+}
+
+export const AppDataSource = new DataSource({
     type: 'postgres',
-    url,
-    synchronize: false,      // Importante: no sincronizar esquema
+    url: variables.DATABASE_URL,
+    synchronize: false,
     logging: false,
     entities: [User, UserTokens],
-    migrations: [],          // No usar migraciones ORM
+    migrations: [],
     subscribers: [],
-  })
-}
-export const AppDataSource = new DataSource({
-  type: 'postgres',
-  url: process.env.DATABASE_URL as string,
-  synchronize: false,      // Importante: no sincronizar esquema
-  logging: false,
-  entities: [User, UserTokens],
-  migrations: [],          // No usar migraciones ORM
-  subscribers: [],
 })

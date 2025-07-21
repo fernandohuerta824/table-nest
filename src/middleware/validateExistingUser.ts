@@ -4,17 +4,16 @@ import { ErrorResponse } from "../classes/errors";
 import { SignupUser } from "../types";
 
 export const validateExistingUser = async (
-    req: Request<{}, {}, SignupUser & { id?: number }>, res: Response, 
+    req: Request<{}, {}, SignupUser>, res: Response, 
     next: NextFunction
 ) => {
-    const { email, id, phoneNumber, username }  = req.body
+    const { email,  phoneNumber, username }  = req.body
 
     const existingUser = await User.findOne({
         where: [
             { email },
             { phoneNumber },
             { username },
-            { id }
             
         ],
         select: ['id', 'email', 'phoneNumber', 'username']
@@ -31,12 +30,18 @@ export const validateExistingUser = async (
             responseObject.phoneNumber = `The phone number '${phoneNumber}' already exists`
         }
             
-        if(username && existingUser.username) {
+        if(existingUser.username && username === existingUser.username) {
             responseObject.username = `The username '${username}' already exists`
         }
 
-        throw new ErrorResponse('userTaken', 'The user has already been taken', 409, responseObject)
-    
+        const error = new ErrorResponse(
+            'userTaken',
+            'The user has already been taken',
+            409,
+            responseObject
+        )
+        throw error
+
     }
 
     next()

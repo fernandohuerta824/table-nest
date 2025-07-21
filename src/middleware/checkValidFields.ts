@@ -25,7 +25,7 @@ export const checkValidFields = (
             })
         }
 
-        const missingFields = fields.filter(f => !bodyFields.includes(f))
+        const missingFields = fields.filter((f) => !bodyFields.includes(f) || req.body[f] === undefined)
         if(missingFields.length > 0) {
                 throw new ErrorResponse('BadRequest', `Bad Request: Fields are missing: ${missingFields.join(', ')}`, 400, {
                 missingFields,

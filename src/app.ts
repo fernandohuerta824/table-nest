@@ -1,15 +1,13 @@
 import express from 'express'
 import type { Request, Response, NextFunction, } from 'express';
-import dotenv from 'dotenv'
-import authRouter from './routes/auth.router';
+import authRouter from './routes/auth.route';
 import { ErrorResponse } from './classes/errors';
-dotenv.config();
 
 const app = express()
 
 app.use(express.json())
 
-app.use('/working', async (req, res) => {
+app.get('/working', async (req, res) => {
     res.json({ message: 'working' })
 })
 app.use('/auth', authRouter)

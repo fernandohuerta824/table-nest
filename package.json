@@ -7,16 +7,17 @@
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-
     "migrate": "dotenv -e .env -- node-pg-migrate",
     "migrate:up": "dotenv -e .env -- node-pg-migrate up",
     "migrate:down": "dotenv -e .env -- node-pg-migrate down",
-
     "migrate:up:test": "dotenv -e .env.test -- node-pg-migrate up",
     "migrate:down:test": "dotenv -e .env.test  -- node-pg-migrate down",
-
     "seed:up": "node ./seeds/index.js up",
-    "seed:down": "node ./seeds/index.js down"
+    "seed:down": "node ./seeds/index.js down",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:unit": "cross-env NODE_ENV=test jest tests/unit --runInBand",
+    "test:integration": "cross-env NODE_ENV=test jest tests/integration --runInBand",
+    "test:all": "npm run test:unit && npm run test:integration"
   },
   "keywords": [],
   "author": "Fernando Huerta",
@@ -28,6 +29,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/pg": "^8.15.4",
     "@types/supertest": "^6.0.3",
+    "cross-env": "^7.0.3",
     "dotenv-cli": "^8.0.0",
     "jest": "^30.0.4",
     "node-pg-migrate": "^8.0.3",
